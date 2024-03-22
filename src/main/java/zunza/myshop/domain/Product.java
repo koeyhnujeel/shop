@@ -32,7 +32,7 @@ public class Product {
 	@Column(name = "PRODUCT_PRICE", nullable = false)
 	private Integer price;
 
-	@Column(name = "PRODUCT_CATEGORY")
+	@Column(name = "PRODUCT_CATEGORY", nullable = false)
 	private Category category;
 
 	@Lob
