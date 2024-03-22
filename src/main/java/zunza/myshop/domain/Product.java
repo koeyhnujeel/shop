@@ -7,6 +7,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ProductOption> options = new ArrayList<>();
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "PRODUCT_CATEGORY", nullable = false)
 	private Category category;
 
