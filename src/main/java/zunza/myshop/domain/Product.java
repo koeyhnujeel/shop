@@ -1,13 +1,17 @@
 package zunza.myshop.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,12 +36,18 @@ public class Product {
 	@Column(name = "PRODUCT_PRICE", nullable = false)
 	private Integer price;
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ProductOption> options = new ArrayList<>();
+
 	@Column(name = "PRODUCT_CATEGORY", nullable = false)
 	private Category category;
 
 	@Lob
 	@Column(name = "PRODUCT_DESCRIPTION", nullable = false)
 	private String description;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ProductImage> images = new ArrayList<>();
 
 	@Column(name = "PRODUCT_CREATED_DATE", nullable = false)
 	private LocalDateTime createdAt;
