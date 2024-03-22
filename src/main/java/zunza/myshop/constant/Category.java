@@ -1,8 +1,10 @@
 package zunza.myshop.constant;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Category {
 	TOP("상의", "001"),
 	KNIT("니트", "001001"),
@@ -31,7 +33,7 @@ public enum Category {
 	BACKPACK("백팩", "005002"),
 	SHOULDER_BAG("숄더백", "005003"),
 
-	HAT("모자", "006"),
+	HEADWEAR("모자", "006"),
 	CAP("캡", "006001"),
 	BEANIE("비니", "006002");
 
