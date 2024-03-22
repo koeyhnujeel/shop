@@ -7,3 +7,7 @@ spring:
   jpa:
     hibernate:
       show-sql: true
+
+  output:
+    ansi:
+      enabled: always
