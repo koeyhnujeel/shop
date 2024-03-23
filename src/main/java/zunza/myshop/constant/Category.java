@@ -50,7 +50,6 @@ public enum Category {
 		return name;
 	}
 
-	@JsonValue
 	public String getCode() {
 		return code;
 	}
