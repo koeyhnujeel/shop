@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import net.coobird.thumbnailator.Thumbnails;
 
 import zunza.myshop.constant.ImageSize;
-import zunza.myshop.domain.Product;
 import zunza.myshop.domain.ProductImage;
 
 @Component
@@ -27,14 +26,15 @@ public class ImageUtil {
 	private byte[] resizeImage(MultipartFile file, int width, int height) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		Thumbnails.of(new ByteArrayInputStream(file.getBytes()))
-			.size(width, height)
+			.forceSize(width, height)
 			.toOutputStream(baos);
 		return baos.toByteArray();
 	}
 
-	private String saveImage(byte[] imageBytes, String type) throws IOException {
+	private String saveImage(byte[] imageBytes, String type, String fileName) throws IOException {
 		UUID uuid = UUID.randomUUID();
-		Path path = Paths.get(PATH + type + uuid);
+		String extension = fileName.split("\\.")[1];
+		Path path = Paths.get(PATH + type + uuid + "." + extension);
 		Files.write(path, imageBytes);
 		return PATH + type + uuid;
 	}
@@ -45,9 +45,10 @@ public class ImageUtil {
 
 		List<ProductImage> productImages = new ArrayList<>();
 
+
 		// 섬네일 이미지 처리
 		byte[] thumbnailImage = resizeImage(mainImage, ImageSize.THUMBNAIL_IMAGE_WIDTH, ImageSize.THUMBNAIL_IMAGE_HEIGHT);
-		String thumbnailUrl = saveImage(thumbnailImage, "thumbnail-");
+		String thumbnailUrl = saveImage(thumbnailImage, "thumbnail-", mainImage.getOriginalFilename());
 		String thumbnailImageName = thumbnailUrl.split(PATH)[1];
 		productImages.add(ProductImage.builder()
 			.imageName(thumbnailImageName)
@@ -56,7 +57,7 @@ public class ImageUtil {
 
 		// 메인 이미지 처리
 		byte[] resizedMainImage = resizeImage(mainImage, ImageSize.NORMAL_IMAGE_WIDTH, ImageSize.NORMAL_IMAGE_HEIGHT);
-		String mainImageUrl = saveImage(resizedMainImage, "main-");
+		String mainImageUrl = saveImage(resizedMainImage, "main-", mainImage.getOriginalFilename());
 		String mainImageName = mainImageUrl.split(PATH)[1];
 		productImages.add(ProductImage.builder()
 			.imageName(mainImageName)
@@ -66,7 +67,7 @@ public class ImageUtil {
 		// 추가 이미지 처리
 		for (MultipartFile image : images) {
 			byte[] resizedImage = resizeImage(image, ImageSize.NORMAL_IMAGE_WIDTH, ImageSize.NORMAL_IMAGE_HEIGHT);
-			String subImageUrl = saveImage(resizedImage, "sub-");
+			String subImageUrl = saveImage(resizedImage, "sub-", image.getOriginalFilename());
 			String subImageName = subImageUrl.split(PATH)[1];
 			productImages.add(ProductImage.builder()
 				.imageName(subImageName)
