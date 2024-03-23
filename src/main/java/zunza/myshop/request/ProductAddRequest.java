@@ -3,6 +3,7 @@ package zunza.myshop.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.constant.Category;
@@ -24,6 +25,14 @@ public class ProductAddRequest {
 
 	@NotBlank(message = "상품 설명을 입력해주세요.")
 	private String description;
+
+	@Builder
+	public ProductAddRequest(String productName, Integer price, Category category, String description) {
+		this.productName = productName;
+		this.price = price;
+		this.category = category;
+		this.description = description;
+	}
 
 	public Product toEntity() {
 		return Product.builder()
