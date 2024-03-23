@@ -50,4 +50,9 @@ public class ProductOption {
 		this.color = color;
 		this.stock = stock;
 	}
+
+	public void setRelation(Product product) {
+		this.product = product;
+		product.getOptions().add(this);
+	}
 }
