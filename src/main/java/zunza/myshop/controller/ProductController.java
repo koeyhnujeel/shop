@@ -1,5 +1,6 @@
 package zunza.myshop.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,11 @@ public class ProductController {
 	@PostMapping("/products")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productAdd(
-		@RequestPart @Valid ProductAddRequest productAddRequest,
-		@RequestPart @Valid ProductOptionAddRequest productOptionAddRequest,
-		@RequestPart MultipartFile mainImage,
-		@RequestPart List<MultipartFile> images
-		) {
+		@RequestPart("productAddRequest") @Valid ProductAddRequest productAddRequest,
+		@RequestPart("productOptionAddRequest") @Valid ProductOptionAddRequest productOptionAddRequest,
+		@RequestPart("mainImage") MultipartFile mainImage,
+		@RequestPart("images") List<MultipartFile> images
+		) throws IOException {
 
 		productService.addProduct(productAddRequest, productOptionAddRequest, mainImage, images);
 	}
