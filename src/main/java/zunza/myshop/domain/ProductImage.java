@@ -45,4 +45,10 @@ public class ProductImage {
 		this.imageName = imageName;
 		this.imageUrl = imageUrl;
 	}
+
+	public ProductImage setRelation(Product product) {
+		this.product = product;
+		product.getImages().add(this);
+		return this;
+	}
 }
