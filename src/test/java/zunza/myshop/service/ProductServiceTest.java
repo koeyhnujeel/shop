@@ -30,9 +30,6 @@ import zunza.myshop.request.ProductOptionAddRequest;
 @SpringBootTest
 @ActiveProfiles("test")
 class ProductServiceTest {
-	String PATH = System.getProperty("user.dir") + "/src/test/resources/static/images/test.jpg";
-	Path path = Paths.get(PATH);
-	byte[] content = Files.readAllBytes(path);
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -45,9 +42,6 @@ class ProductServiceTest {
 
 	@Autowired
 	private ProductService productService;
-
-	ProductServiceTest() throws IOException {
-	}
 
 	@BeforeEach
 	void clean() {
@@ -73,6 +67,10 @@ class ProductServiceTest {
 			.color("블루")
 			.stock(100)
 			.build();
+
+		String PATH = System.getProperty("user.dir") + "/src/test/resources/static/images/test.jpg";
+		Path path = Paths.get(PATH);
+		byte[] content = Files.readAllBytes(path);
 
 		MultipartFile mainImage = new MockMultipartFile("main", "main.jpeg", "image/jpeg",
 			content);
