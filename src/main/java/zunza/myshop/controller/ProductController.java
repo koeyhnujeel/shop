@@ -2,8 +2,10 @@ package zunza.myshop.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import zunza.myshop.request.ProductAddRequest;
-import zunza.myshop.request.ProductOptionAddRequest;
+import zunza.myshop.request.ProductRequest;
+import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.service.ProductService;
 
 @RestController
@@ -25,12 +27,18 @@ public class ProductController {
 	@PostMapping("/products")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productAdd(
-		@RequestPart("productAddRequest") @Valid ProductAddRequest productAddRequest,
-		@RequestPart("productOptionAddRequest") @Valid ProductOptionAddRequest productOptionAddRequest,
+		@RequestPart("productRequest") @Valid ProductRequest productRequest,
+		@RequestPart("productOptionRequest") @Valid ProductOptionRequest productOptionRequest,
 		@RequestPart("mainImage") MultipartFile mainImage,
 		@RequestPart("images") List<MultipartFile> images
 		) throws IOException {
 
-		productService.addProduct(productAddRequest, productOptionAddRequest, mainImage, images);
+		productService.addProduct(productRequest, productOptionRequest, mainImage, images);
+	}
+
+	@GetMapping("/products")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> productList() {
+		return productService.findProductList();
 	}
 }
