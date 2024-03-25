@@ -49,6 +49,9 @@ public class Product {
 	@Column(name = "PRODUCT_DESCRIPTION", nullable = false)
 	private String description;
 
+	@Column(name = "PRODUCT_SALES_RATE")
+	private Integer salesRate;
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ProductImage> images = new ArrayList<>();
 
@@ -66,6 +69,7 @@ public class Product {
 		this.price = price;
 		this.category = category;
 		this.description = description;
+		this.salesRate = 0;
 		this.createdAt = LocalDateTime.now().withNano(0);
 	}
 }
