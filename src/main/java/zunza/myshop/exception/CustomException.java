@@ -14,7 +14,7 @@ public abstract class CustomException extends RuntimeException {
 		super(message);
 	}
 
-	public abstract int getCode();
+	public abstract int getStatusCode();
 
 	public void addError(String errorField, String message) {
 		errors.put(errorField, message);
