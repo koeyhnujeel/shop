@@ -1,6 +1,7 @@
 package zunza.myshop.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import zunza.myshop.exception.CustomException;
 import zunza.myshop.response.ErrorResponse;
 
 @RestControllerAdvice
@@ -42,5 +44,19 @@ public class ExceptionController {
 		}
 
 		return errorResponse;
+	}
+
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<ErrorResponse> customException(CustomException e) {
+		int code = e.getStatusCode();
+
+		ErrorResponse errorResponse = ErrorResponse.builder()
+			.message(e.getMessage())
+			.code(String.valueOf(code))
+			.errorMap(e.getErrors())
+			.build();
+
+		return ResponseEntity.status(code)
+			.body(errorResponse);
 	}
 }
