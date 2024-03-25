@@ -36,7 +36,7 @@ public class ProductImage {
 	private String imageUrl;
 
 	@Builder
-	public ProductImage(
+	private ProductImage(
 		Product product,
 		String imageName,
 		String imageUrl) {
@@ -44,6 +44,13 @@ public class ProductImage {
 		this.product = product;
 		this.imageName = imageName;
 		this.imageUrl = imageUrl;
+	}
+
+	public static ProductImage of(String imageName, String imageUrl) {
+		return ProductImage.builder()
+			.imageName(imageName)
+			.imageUrl(imageUrl)
+			.build();
 	}
 
 	public ProductImage setRelation(Product product) {

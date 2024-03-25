@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zunza.myshop.request.ProductOptionRequest;
 
 @Getter
 @Entity
@@ -39,7 +40,7 @@ public class ProductOption {
 	private Integer stock;
 
 	@Builder
-	public ProductOption(
+	private ProductOption(
 		Product product,
 		String size,
 		String color,
@@ -49,6 +50,14 @@ public class ProductOption {
 		this.size = size;
 		this.color = color;
 		this.stock = stock;
+	}
+
+	public static ProductOption from(ProductOptionRequest productOptionRequest) {
+		return ProductOption.builder()
+			.size(productOptionRequest.getSize())
+			.color(productOptionRequest.getColor())
+			.stock(productOptionRequest.getStock())
+			.build();
 	}
 
 	public void setRelation(Product product) {

@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.constant.Category;
+import zunza.myshop.request.ProductRequest;
 
 @Getter
 @Entity
@@ -59,7 +60,7 @@ public class Product {
 	private LocalDateTime createdAt;
 
 	@Builder
-	public Product(
+	private Product(
 		String productName,
 		Integer price,
 		Category category,
@@ -71,5 +72,14 @@ public class Product {
 		this.description = description;
 		this.salesRate = 0;
 		this.createdAt = LocalDateTime.now().withNano(0);
+	}
+
+	public static Product from(ProductRequest productRequest) {
+		return Product.builder()
+			.productName(productRequest.getProductName())
+			.price(productRequest.getPrice())
+			.category(productRequest.getCategory())
+			.description(productRequest.getDescription())
+			.build();
 	}
 }
