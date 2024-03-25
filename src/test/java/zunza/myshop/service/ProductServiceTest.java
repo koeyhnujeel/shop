@@ -24,8 +24,8 @@ import zunza.myshop.domain.Product;
 import zunza.myshop.repository.ProductImageRepository;
 import zunza.myshop.repository.ProductOptionRepository;
 import zunza.myshop.repository.ProductRepository;
-import zunza.myshop.request.ProductAddRequest;
-import zunza.myshop.request.ProductOptionAddRequest;
+import zunza.myshop.request.ProductRequest;
+import zunza.myshop.request.ProductOptionRequest;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -55,14 +55,14 @@ class ProductServiceTest {
 	@Transactional
 	void test1() throws IOException {
 		//given
-		ProductAddRequest productAddRequest = ProductAddRequest.builder()
+		ProductRequest productRequest = ProductRequest.builder()
 			.productName("체크 셔츠")
 			.price(10000)
 			.category(Category.SHIRT)
 			.description("테스트 상품입니다.")
 			.build();
 
-		ProductOptionAddRequest productOptionAddRequest = ProductOptionAddRequest.builder()
+		ProductOptionRequest productOptionRequest = ProductOptionRequest.builder()
 			.size("M")
 			.color("블루")
 			.stock(100)
@@ -83,7 +83,7 @@ class ProductServiceTest {
 		));
 
 		//when
-		productService.addProduct(productAddRequest, productOptionAddRequest,mainImage, images);
+		productService.addProduct(productRequest, productOptionRequest,mainImage, images);
 
 		//then
 		Product product = productRepository.findAll().get(0);

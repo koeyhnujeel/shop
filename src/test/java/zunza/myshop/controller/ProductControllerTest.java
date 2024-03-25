@@ -1,6 +1,5 @@
 package zunza.myshop.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,8 +26,8 @@ import zunza.myshop.constant.Category;
 import zunza.myshop.repository.ProductImageRepository;
 import zunza.myshop.repository.ProductOptionRepository;
 import zunza.myshop.repository.ProductRepository;
-import zunza.myshop.request.ProductAddRequest;
-import zunza.myshop.request.ProductOptionAddRequest;
+import zunza.myshop.request.ProductRequest;
+import zunza.myshop.request.ProductOptionRequest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -62,14 +61,14 @@ class ProductControllerTest {
 	void test1() throws Exception {
 
 		//given
-		ProductAddRequest productRequest = ProductAddRequest.builder()
+		ProductRequest productRequest = ProductRequest.builder()
 			.productName("체크 셔츠")
 			.price(10000)
 			.category(Category.SHIRT)
 			.description("테스트 상품입니다.")
 			.build();
 
-		ProductOptionAddRequest productOptionRequest = ProductOptionAddRequest.builder()
+		ProductOptionRequest productOptionRequest = ProductOptionRequest.builder()
 			.size("M")
 			.color("블루")
 			.stock(100)
@@ -78,10 +77,10 @@ class ProductControllerTest {
 		String json1 = objectMapper.writeValueAsString(productRequest);
 		String json2 = objectMapper.writeValueAsString(productOptionRequest);
 
-		MockMultipartFile productAddRequest = new MockMultipartFile("productAddRequest", null,
+		MockMultipartFile productAddRequest = new MockMultipartFile("productRequest", null,
 			"application/json", json1.getBytes(StandardCharsets.UTF_8));
 
-		MockMultipartFile productOptionAddRequest = new MockMultipartFile("productOptionAddRequest", null,
+		MockMultipartFile productOptionAddRequest = new MockMultipartFile("productOptionRequest", null,
 			"application/json", json2.getBytes(StandardCharsets.UTF_8));
 
 		String PATH = System.getProperty("user.dir") + "/src/test/resources/static/images/test.jpg";

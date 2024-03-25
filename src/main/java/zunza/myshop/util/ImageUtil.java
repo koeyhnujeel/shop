@@ -36,7 +36,7 @@ public class ImageUtil {
 		String extension = fileName.split("\\.")[1];
 		Path path = Paths.get(PATH + type + uuid + "." + extension);
 		Files.write(path, imageBytes);
-		return PATH + type + uuid;
+		return PATH + type + uuid + "." + extension;
 	}
 
 	public List<ProductImage> convertToEntitiesWithResizeAndSave (
@@ -50,29 +50,20 @@ public class ImageUtil {
 		byte[] thumbnailImage = resizeImage(mainImage, ImageSize.THUMBNAIL_IMAGE_WIDTH, ImageSize.THUMBNAIL_IMAGE_HEIGHT);
 		String thumbnailUrl = saveImage(thumbnailImage, "thumbnail-", mainImage.getOriginalFilename());
 		String thumbnailImageName = thumbnailUrl.split(PATH)[1];
-		productImages.add(ProductImage.builder()
-			.imageName(thumbnailImageName)
-			.imageUrl(thumbnailUrl)
-			.build());
+		productImages.add(ProductImage.of(thumbnailImageName, thumbnailUrl));
 
 		// 메인 이미지 처리
 		byte[] resizedMainImage = resizeImage(mainImage, ImageSize.NORMAL_IMAGE_WIDTH, ImageSize.NORMAL_IMAGE_HEIGHT);
 		String mainImageUrl = saveImage(resizedMainImage, "main-", mainImage.getOriginalFilename());
 		String mainImageName = mainImageUrl.split(PATH)[1];
-		productImages.add(ProductImage.builder()
-			.imageName(mainImageName)
-			.imageUrl(mainImageUrl)
-			.build());
+		productImages.add(ProductImage.of(mainImageName, mainImageUrl));
 
 		// 추가 이미지 처리
 		for (MultipartFile image : images) {
 			byte[] resizedImage = resizeImage(image, ImageSize.NORMAL_IMAGE_WIDTH, ImageSize.NORMAL_IMAGE_HEIGHT);
 			String subImageUrl = saveImage(resizedImage, "sub-", image.getOriginalFilename());
 			String subImageName = subImageUrl.split(PATH)[1];
-			productImages.add(ProductImage.builder()
-				.imageName(subImageName)
-				.imageUrl(subImageUrl)
-				.build());
+			productImages.add(ProductImage.of(subImageName, subImageUrl));
 		}
 
 		return productImages;
