@@ -9,31 +9,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.ProductImage;
 import zunza.myshop.domain.ProductOption;
+import zunza.myshop.domain.ProductReview;
+import zunza.myshop.exception.ProductNotFoundException;
 import zunza.myshop.repository.ProductImageRepository;
 import zunza.myshop.repository.ProductOptionRepository;
 import zunza.myshop.repository.ProductRepository;
+import zunza.myshop.repository.ProductReviewRepository;
 import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.response.LatestProductResponse;
+import zunza.myshop.response.ProductDetails;
+import zunza.myshop.response.ProductImageResponse;
+import zunza.myshop.response.ProductOptionResponse;
+import zunza.myshop.response.ProductReviewResponse;
 import zunza.myshop.response.TopSalesProductResponse;
 import zunza.myshop.util.ImageUtil;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductService {
 
 	private final ProductRepository productRepository;
 	private final ProductOptionRepository productOptionRepository;
 	private final ProductImageRepository productImageRepository;
+	private final ProductReviewRepository productReviewRepository;
 	private final ImageUtil imageUtil;
 
 
 	public void addProduct(
 		ProductRequest productRequest,
-		ProductOptionRequest productOptionARequest,
+		List<ProductOptionRequest> productOptionsRequest,
 		MultipartFile mainImage,
 		List<MultipartFile> images
 		) throws IOException {
@@ -41,9 +51,8 @@ public class ProductService {
 		Product product = Product.from(productRequest);
 		productRepository.save(product);
 
-		ProductOption productOption = ProductOption.from(productOptionARequest);
-		productOption.setRelation(product);
-		productOptionRepository.save(productOption);
+		productOptionsRequest.forEach(productOptionRequest ->
+			productOptionRepository.save(ProductOption.from(productOptionRequest).setRelation(product)));
 
 		List<ProductImage> productImages = imageUtil.convertToEntitiesWithResizeAndSave(mainImage, images);
 		productImages.forEach(productImage -> productImageRepository.save(productImage.setRelation(product)));
@@ -51,7 +60,7 @@ public class ProductService {
 
 	public Map<String, Object> findProductList() {
 
-		List<Product> topSalesProductsWithImages = productRepository.findMainViewProductsWithImage("sales");
+		List<Product> topSalesProductsWithImages = productRepository.findProductsAndImageByCriteria("sales");
 		List<TopSalesProductResponse> topSalesProducts = topSalesProductsWithImages.stream()
 			.map(product -> TopSalesProductResponse.of(
 				product.getId(),
@@ -60,7 +69,7 @@ public class ProductService {
 				getThumbnailUrl(product)))
 			.toList();
 
-		List<Product> latestProductsWithImages = productRepository.findMainViewProductsWithImage("latest");
+		List<Product> latestProductsWithImages = productRepository.findProductsAndImageByCriteria("latest");
 		List<LatestProductResponse> latestProducts = latestProductsWithImages.stream()
 			.map(product -> LatestProductResponse.of(
 				product.getId(),
@@ -83,5 +92,26 @@ public class ProductService {
 			.map(ProductImage::getImageUrl)
 			.orElse("")
 		);
+	}
+
+	public ProductDetails findProduct(Long productId) {
+		Product product = productRepository.findById(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+
+		List<ProductOptionResponse> options = product.getOptions().stream()
+			.map(ProductOptionResponse::from)
+			.toList();
+
+		List<ProductImageResponse> images = product.getImages().stream()
+			.filter(productImage -> !productImage.getImageName().startsWith("thumbnail"))
+			.map(productImage -> ProductImageResponse.from(productImage.getImageUrl()))
+			.toList();
+
+		List<ProductReview> productReviews = productReviewRepository.findReviewsAndUserByProductId(productId);
+		List<ProductReviewResponse> reviews = productReviews.stream()
+			.map(ProductReviewResponse::from)
+			.toList();
+
+		return ProductDetails.of(product, options, images, reviews);
 	}
 }
