@@ -60,8 +60,9 @@ public class ProductOption {
 			.build();
 	}
 
-	public void setRelation(Product product) {
+	public ProductOption setRelation(Product product) {
 		this.product = product;
 		product.getOptions().add(this);
+		return this;
 	}
 }
