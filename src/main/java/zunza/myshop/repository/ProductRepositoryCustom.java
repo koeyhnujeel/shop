@@ -6,5 +6,5 @@ import zunza.myshop.domain.Product;
 
 public interface ProductRepositoryCustom {
 
-	List<Product> findMainViewProductsWithImage(String criteria);
+	List<Product> findProductsAndImageByCriteria(String criteria);
 }
