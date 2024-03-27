@@ -17,12 +17,12 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<Product> findMainViewProductsWithImage(String criteria) {
+	public List<Product> findProductsAndImageByCriteria(String criteria) {
 		QProduct product = QProduct.product;
 		QProductImage productImage = QProductImage.productImage;
 
 		return jpaQueryFactory.selectFrom(product)
-			.join(product.images, productImage).fetchJoin()
+			.leftJoin(product.images, productImage).fetchJoin()
 			.distinct()
 			.orderBy(getOrderSpecifier(criteria))
 			.limit(14)
@@ -34,5 +34,4 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 		else if (criteria.equals("latest")) return new OrderSpecifier<>(Order.DESC, QProduct.product.createdAt);
 		return null;
 	};
-
 }
