@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import zunza.myshop.domain.Product;
@@ -21,6 +22,7 @@ import zunza.myshop.repository.ProductRepository;
 import zunza.myshop.repository.ProductReviewRepository;
 import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
+import zunza.myshop.request.ProductUpdateRequest;
 import zunza.myshop.response.LatestProductResponse;
 import zunza.myshop.response.ProductDetails;
 import zunza.myshop.response.ProductImageResponse;
@@ -113,5 +115,13 @@ public class ProductService {
 			.toList();
 
 		return ProductDetails.of(product, options, images, reviews);
+	}
+
+	@Transactional
+	public void productModify(Long productId, ProductUpdateRequest productUpdateRequest) {
+		Product product = productRepository.findById(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+
+		product.modify(productUpdateRequest);
 	}
 }
