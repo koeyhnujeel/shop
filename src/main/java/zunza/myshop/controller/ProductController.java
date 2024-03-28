@@ -29,7 +29,7 @@ public class ProductController {
 
 	private final ProductService productService;
 
-	@PostMapping("/products")
+	@PostMapping("/products/management")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productAdd(
 		@RequestPart("productRequest") @Valid ProductRequest productRequest,
@@ -53,7 +53,7 @@ public class ProductController {
 		return productService.findProduct(productId);
 	}
 
-	@PatchMapping("/products/{productId}")
+	@PatchMapping("/products/management/{productId}")
 	@ResponseStatus(HttpStatus.OK)
 	public void productModify(
 		@PathVariable("productId") Long productId,
