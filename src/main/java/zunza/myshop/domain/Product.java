@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.constant.Category;
 import zunza.myshop.request.ProductRequest;
+import zunza.myshop.request.ProductUpdateRequest;
 
 @Getter
 @Entity
@@ -33,7 +36,8 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "PRODUCT_NAME", nullable = false, length = 40)
+	@Column(name = "PRODUCT_NAME", nullable = false)
+	@Length(min = 1, max = 40, message = "상품명은 1 ~ 40자까지 가능합니다.")
 	private String productName;
 
 	@Column(name = "PRODUCT_PRICE", nullable = false)
@@ -47,6 +51,7 @@ public class Product {
 	private Category category;
 
 	@Lob
+	@Length(min = 10, max = 1000, message = "상품 설명은 10 ~ 1000자까지 가능합니다.")
 	@Column(name = "PRODUCT_DESCRIPTION", nullable = false)
 	private String description;
 
@@ -85,5 +90,12 @@ public class Product {
 			.category(productRequest.getCategory())
 			.description(productRequest.getDescription())
 			.build();
+	}
+
+	public void modify(ProductUpdateRequest productUpdateRequest) {
+		this.productName = productUpdateRequest.getProductName();
+		this.price = productUpdateRequest.getPrice();
+		this.category = productUpdateRequest.getCategory();
+		this.description = productUpdateRequest.getDescription();
 	}
 }
