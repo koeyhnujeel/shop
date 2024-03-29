@@ -1,4 +1,4 @@
-package zunza.myshop.response;
+package zunza.myshop.response.product_management;
 
 import lombok.Getter;
 import zunza.myshop.domain.Product;

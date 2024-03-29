@@ -1,6 +1,5 @@
-package zunza.myshop.response;
+package zunza.myshop.response.product_detail;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;

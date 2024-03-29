@@ -1,4 +1,4 @@
-package zunza.myshop.response;
+package zunza.myshop.response.product_detail;
 
 import java.time.format.DateTimeFormatter;
 
