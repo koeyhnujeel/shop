@@ -44,4 +44,12 @@ public class ProductOptionService {
 
 		productOption.update(productOptionUpdateRequest);
 	}
+
+	@Transactional
+	public void removeProductOption(Long productOptionId) {
+		ProductOption productOption = productOptionRepository.findById(productOptionId)
+			.orElseThrow(() -> new ProductOptionNotFoundException(productOptionId));
+
+		productOptionRepository.delete(productOption);
+	}
 }

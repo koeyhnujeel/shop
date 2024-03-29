@@ -3,6 +3,7 @@ package zunza.myshop.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,12 @@ public class ProductOptionController {
 		@RequestBody ProductOptionUpdateRequest productOptionUpdateRequest) {
 
 		productOptionService.modifyProductOption(productOptionId, productOptionUpdateRequest);
+	}
+
+	@DeleteMapping("/product-options/{product-optionId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void productOptionRemove(@PathVariable("product-optionId") Long productOptionId) {
+
+		productOptionService.removeProductOption(productOptionId);
 	}
 }
