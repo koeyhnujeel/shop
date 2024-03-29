@@ -19,7 +19,7 @@ public class ProductOptionController {
 
 	private final ProductOptionService productOptionService;
 
-	@PostMapping("/products/management/{productId}/productOptions")
+	@PostMapping("/products/management/{productId}/product-options")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productOptionsAdd(
 		@PathVariable("productId") Long productId,
