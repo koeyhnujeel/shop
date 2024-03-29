@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.request.ProductOptionRequest;
+import zunza.myshop.request.ProductOptionUpdateRequest;
 
 @Getter
 @Entity
@@ -64,5 +65,11 @@ public class ProductOption {
 		this.product = product;
 		product.getOptions().add(this);
 		return this;
+	}
+
+	public void update(ProductOptionUpdateRequest productOptionUpdateRequest) {
+		this.size = productOptionUpdateRequest.getSize();
+		this.color = productOptionUpdateRequest.getColor();
+		this.stock = productOptionUpdateRequest.getStock();
 	}
 }
