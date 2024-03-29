@@ -21,8 +21,9 @@ import lombok.RequiredArgsConstructor;
 import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.request.ProductUpdateRequest;
-import zunza.myshop.response.ProductDetails;
-import zunza.myshop.response.ProductListResponseForAdmin;
+import zunza.myshop.response.product_detail.ProductDetails;
+import zunza.myshop.response.product_management.ProductDetailsForAdmin;
+import zunza.myshop.response.product_management.ProductListResponseForAdmin;
 import zunza.myshop.service.ProductService;
 
 @RestController
@@ -63,6 +64,14 @@ public class ProductController {
 		@RequestParam(value = "keyword", required = false) String keyword) {
 
 		return productService.findProductListForAdmin(page, size, keyword);
+	}
+
+	@GetMapping("/products/management/{productId}")
+	@ResponseStatus(HttpStatus.OK)
+	public ProductDetailsForAdmin productDetailsForAdmin(
+		@PathVariable("productId") Long productId) {
+
+		return productService.findProductForAdmin(productId);
 	}
 
 	@PatchMapping("/products/management/{productId}")

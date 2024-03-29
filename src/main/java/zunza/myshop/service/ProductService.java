@@ -24,12 +24,15 @@ import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.request.ProductUpdateRequest;
 import zunza.myshop.response.LatestProductResponse;
-import zunza.myshop.response.ProductDetails;
-import zunza.myshop.response.ProductImageResponse;
-import zunza.myshop.response.ProductListResponseForAdmin;
-import zunza.myshop.response.ProductOptionResponse;
-import zunza.myshop.response.ProductReviewResponse;
+import zunza.myshop.response.product_detail.ProductDetails;
+import zunza.myshop.response.product_detail.ProductImageResponse;
+import zunza.myshop.response.product_management.ProductDetailsForAdmin;
+import zunza.myshop.response.product_management.ProductImageResponseForAdmin;
+import zunza.myshop.response.product_management.ProductListResponseForAdmin;
+import zunza.myshop.response.product_detail.ProductOptionResponse;
+import zunza.myshop.response.product_detail.ProductReviewResponse;
 import zunza.myshop.response.TopSalesProductResponse;
+import zunza.myshop.response.product_management.ProductOptionResponseForAdmin;
 import zunza.myshop.util.ImageUtil;
 
 @Service
@@ -98,7 +101,7 @@ public class ProductService {
 	}
 
 	public ProductDetails findProduct(Long productId) {
-		Product product = productRepository.findById(productId)
+		Product product = productRepository.findProductAndImageFetchJoin(productId)
 			.orElseThrow(() -> new ProductNotFoundException(productId));
 
 		List<ProductOptionResponse> options = product.getOptions().stream()
@@ -118,19 +121,34 @@ public class ProductService {
 		return ProductDetails.of(product, options, images, reviews);
 	}
 
-	@Transactional
-	public void productModify(Long productId, ProductUpdateRequest productUpdateRequest) {
-		Product product = productRepository.findById(productId)
-			.orElseThrow(() -> new ProductNotFoundException(productId));
-
-		product.modify(productUpdateRequest);
-	}
-
 	public List<ProductListResponseForAdmin> findProductListForAdmin(int page, int size, String keyword) {
 
 		List<Product> productList = productRepository.findProductAndImageForAdmin(page, size, keyword);
 		return productList.stream()
 			.map(ProductListResponseForAdmin::from)
 			.toList();
+	}
+
+	public ProductDetailsForAdmin findProductForAdmin(Long productId) {
+		Product product = productRepository.findProductAndImageFetchJoin(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+
+		List<ProductImageResponseForAdmin> images = product.getImages().stream()
+			.map(ProductImageResponseForAdmin::from)
+			.toList();
+
+		List<ProductOptionResponseForAdmin> options = product.getOptions().stream()
+			.map(ProductOptionResponseForAdmin::from)
+			.toList();
+
+		return ProductDetailsForAdmin.of(product, images, options);
+	}
+
+	@Transactional
+	public void productModify(Long productId, ProductUpdateRequest productUpdateRequest) {
+		Product product = productRepository.findById(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+
+		product.modify(productUpdateRequest);
 	}
 }
