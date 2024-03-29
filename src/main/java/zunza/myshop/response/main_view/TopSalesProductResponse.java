@@ -1,4 +1,4 @@
-package zunza.myshop.response;
+package zunza.myshop.response.main_view;
 
 import lombok.Getter;
 

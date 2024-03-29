@@ -23,7 +23,7 @@ import zunza.myshop.repository.ProductReviewRepository;
 import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.request.ProductUpdateRequest;
-import zunza.myshop.response.LatestProductResponse;
+import zunza.myshop.response.main_view.LatestProductResponse;
 import zunza.myshop.response.product_detail.ProductDetails;
 import zunza.myshop.response.product_detail.ProductImageResponse;
 import zunza.myshop.response.product_management.ProductDetailsForAdmin;
@@ -31,7 +31,7 @@ import zunza.myshop.response.product_management.ProductImageResponseForAdmin;
 import zunza.myshop.response.product_management.ProductListResponseForAdmin;
 import zunza.myshop.response.product_detail.ProductOptionResponse;
 import zunza.myshop.response.product_detail.ProductReviewResponse;
-import zunza.myshop.response.TopSalesProductResponse;
+import zunza.myshop.response.main_view.TopSalesProductResponse;
 import zunza.myshop.response.product_management.ProductOptionResponseForAdmin;
 import zunza.myshop.util.ImageUtil;
 
