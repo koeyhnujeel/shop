@@ -75,7 +75,7 @@ public class ProductController {
 	}
 
 	@PatchMapping("/products/management/{productId}")
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void productModify(
 		@PathVariable("productId") Long productId,
 		@RequestBody ProductUpdateRequest productUpdateRequest) {

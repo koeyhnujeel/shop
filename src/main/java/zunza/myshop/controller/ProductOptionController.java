@@ -31,7 +31,7 @@ public class ProductOptionController {
 	}
 
 	@PatchMapping("/product-options/{product-optionId}")
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void productOptionModify(
 		@PathVariable("product-optionId") Long productOptionId,
 		@RequestBody ProductOptionUpdateRequest productOptionUpdateRequest) {
