@@ -26,6 +26,7 @@ import zunza.myshop.request.ProductUpdateRequest;
 import zunza.myshop.response.LatestProductResponse;
 import zunza.myshop.response.ProductDetails;
 import zunza.myshop.response.ProductImageResponse;
+import zunza.myshop.response.ProductListResponseForAdmin;
 import zunza.myshop.response.ProductOptionResponse;
 import zunza.myshop.response.ProductReviewResponse;
 import zunza.myshop.response.TopSalesProductResponse;
@@ -123,5 +124,13 @@ public class ProductService {
 			.orElseThrow(() -> new ProductNotFoundException(productId));
 
 		product.modify(productUpdateRequest);
+	}
+
+	public List<ProductListResponseForAdmin> findProductListForAdmin(int page, int size, String keyword) {
+
+		List<Product> productList = productRepository.findProductAndImageForAdmin(page, size, keyword);
+		return productList.stream()
+			.map(ProductListResponseForAdmin::from)
+			.toList();
 	}
 }
