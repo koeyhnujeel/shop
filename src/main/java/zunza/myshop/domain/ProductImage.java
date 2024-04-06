@@ -58,4 +58,9 @@ public class ProductImage {
 		product.getImages().add(this);
 		return this;
 	}
+
+	public void update(String imageName, String imageUrl) {
+		this.imageName = imageName;
+		this.imageUrl = imageUrl;
+	}
 }
