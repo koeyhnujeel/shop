@@ -11,8 +11,6 @@ public enum Category {
 	SWEATSHIRT("맨투맨", "001002"),
 	HOODIE("후드티", "001003"),
 	SHIRT("셔츠", "001004"),
-	LONG_SLEEVE("긴소매 티셔츠", "001005"),
-	SHORT_SLEEVE("반팔 티셔츠", "001006"),
 
 	PANTS("바지", "002"),
 	DENIM_PANTS("청바지", "002001"),
