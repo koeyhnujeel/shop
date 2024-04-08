@@ -64,12 +64,12 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
-
+  
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
-          docker pull zunza/shop:${{ env.COMMIT_SHA }}
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 80:8080 zunza/shop:${{ env.COMMIT_SHA }}
+          export TAG=${{ env.COMMIT_SHA }}
+          docker-compose down || true
+          docker-compose up -d
         EOF
+
