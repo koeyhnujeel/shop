@@ -56,15 +56,15 @@ public class ProductReview {
 		this.createdAt = LocalDateTime.now().withNano(0);
 	}
 
-	public static ProductReview of(
-		User user,
-		Product product,
-		ReviewRequest reviewRequest) {
-
-		return ProductReview.builder()
-			.user(user)
-			.product(product)
-			.content(reviewRequest.content)
-			.build();
-	}
+	// public static ProductReview of(
+	// 	User user,
+	// 	Product product,
+	// 	ReviewRequest reviewRequest) {
+	//
+	// 	return ProductReview.builder()
+	// 		.user(user)
+	// 		.product(product)
+	// 		.content(reviewRequest.content)
+	// 		.build();
+	// }
 }
