@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -74,13 +76,15 @@ class ProductControllerTest {
 			.stock(100)
 			.build();
 
+		List<ProductOptionRequest> optionRequests = new ArrayList<>(List.of(productOptionRequest));
+
 		String json1 = objectMapper.writeValueAsString(productRequest);
-		String json2 = objectMapper.writeValueAsString(productOptionRequest);
+		String json2 = objectMapper.writeValueAsString(optionRequests);
 
 		MockMultipartFile productAddRequest = new MockMultipartFile("productRequest", null,
 			"application/json", json1.getBytes(StandardCharsets.UTF_8));
 
-		MockMultipartFile productOptionAddRequest = new MockMultipartFile("productOptionRequest", null,
+		MockMultipartFile productOptionAddRequest = new MockMultipartFile("productOptionsRequest", null,
 			"application/json", json2.getBytes(StandardCharsets.UTF_8));
 
 		String PATH = System.getProperty("user.dir") + "/src/test/resources/static/images/test.jpg";
@@ -94,7 +98,7 @@ class ProductControllerTest {
 				content);
 
 		//expected
-		mockMvc.perform(multipart(HttpMethod.POST, "/products")
+		mockMvc.perform(multipart(HttpMethod.POST, "/products/management")
 				.file(productAddRequest)
 				.file(productOptionAddRequest)
 				.file(mainImage)

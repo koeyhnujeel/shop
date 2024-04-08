@@ -68,6 +68,8 @@ class ProductServiceTest {
 			.stock(100)
 			.build();
 
+		List<ProductOptionRequest> optionRequests = new ArrayList<>(List.of(productOptionRequest));
+
 		String PATH = System.getProperty("user.dir") + "/src/test/resources/static/images/test.jpg";
 		Path path = Paths.get(PATH);
 		byte[] content = Files.readAllBytes(path);
@@ -83,7 +85,7 @@ class ProductServiceTest {
 		));
 
 		//when
-		productService.addProduct(productRequest, productOptionRequest,mainImage, images);
+		productService.addProduct(productRequest, optionRequests,mainImage, images);
 
 		//then
 		Product product = productRepository.findAll().get(0);
