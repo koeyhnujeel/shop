@@ -47,7 +47,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Extract commit hash
-      run: echo "COMMIT_SHA=$(echo ${GITHUB_SHA::8})" >> $GITHUB_ENV
+      run: echo "COMMIT_SHA=$(echo ${GITHUB_SHA::7})" >> $GITHUB_ENV
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
@@ -70,6 +70,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
           export TAG=${{ env.COMMIT_SHA }}
+          cd compose
           docker-compose down || true
           docker-compose up -d
         EOF
