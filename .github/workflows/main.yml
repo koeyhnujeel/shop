@@ -69,8 +69,7 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
-          export TAG=${{ env.COMMIT_SHA }}
-          echo $TAG
+          echo "TAG=${{ env.COMMIT_SHA }}" > compose/.env
           cd compose
           docker-compose down || true
           docker-compose up -d
