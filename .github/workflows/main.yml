@@ -21,9 +21,9 @@ jobs:
       uses: samin/mysql-action@v1
       with:
         character set server: 'utf8'
+        mysql version: '8.1'
         mysql database: 'shop'
-        mysql user: 'root'
-        mysql password: ${{ secrets.DB_PASSWORD }}
+        mysql root password: ${{ secrets.DB_PASSWORD }}
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
     - name: Run tests
