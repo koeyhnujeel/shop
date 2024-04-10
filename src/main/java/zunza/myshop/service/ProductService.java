@@ -57,31 +57,26 @@ public class ProductService {
 		Product product = Product.from(productRequest);
 		productRepository.save(product);
 
-		productOptionsRequest.forEach(productOptionRequest ->
-			productOptionRepository.save(ProductOption.from(productOptionRequest).setRelation(product)));
+		productOptionsRequest.forEach(productOptionRequest -> productOptionRepository.save(
+				ProductOption.from(productOptionRequest).setRelation(product)
+			));
 
 		List<ProductImage> productImages = imageUtil.convertToEntitiesWithResizeAndSave(mainImage, images);
-		productImages.forEach(productImage -> productImageRepository.save(productImage.setRelation(product)));
+		productImages.forEach(productImage -> productImageRepository.save(
+			productImage.setRelation(product)
+		));
 	}
 
 	public Map<String, Object> findProductList() {
 
 		List<Product> topSalesProductsWithImages = productRepository.findProductsAndImageByCriteria("sales");
 		List<TopSalesProductResponse> topSalesProducts = topSalesProductsWithImages.stream()
-			.map(product -> TopSalesProductResponse.of(
-				product.getId(),
-				product.getProductName(),
-				product.getPrice(),
-				getThumbnailUrl(product)))
+			.map(product -> TopSalesProductResponse.of(product, getThumbnailUrl(product)))
 			.toList();
 
 		List<Product> latestProductsWithImages = productRepository.findProductsAndImageByCriteria("latest");
 		List<LatestProductResponse> latestProducts = latestProductsWithImages.stream()
-			.map(product -> LatestProductResponse.of(
-				product.getId(),
-				product.getProductName(),
-				product.getPrice(),
-				getThumbnailUrl(product)))
+			.map(product -> LatestProductResponse.of(product, getThumbnailUrl(product)))
 			.toList();
 
 		Map<String, Object> mainViewResponse = new HashMap<>();
