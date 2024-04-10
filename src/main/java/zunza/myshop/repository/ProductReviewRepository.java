@@ -12,6 +12,9 @@ import zunza.myshop.domain.ProductReview;
 @Repository
 public interface ProductReviewRepository extends JpaRepository<ProductReview, Long> {
 
-	@Query("select DISTINCT r from ProductReview r join fetch r.user where r.product.id = :ProductId")
+	@Query("select DISTINCT r "
+		+ "from ProductReview r "
+		+ "join fetch r.user "
+		+ "where r.product.id = :ProductId")
 	List<ProductReview> findReviewsAndUserByProductId(@Param("ProductId") Long ProductId);
 }
