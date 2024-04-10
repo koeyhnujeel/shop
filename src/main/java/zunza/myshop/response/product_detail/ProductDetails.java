@@ -14,7 +14,6 @@ public class ProductDetails {
 	private Integer likeCount;
 	private List<ProductOptionResponse> productOptionResponses;
 	private List<ProductImageResponse> productImageResponses;
-	private List<ProductReviewResponse> productReviewResponses;
 
 	private ProductDetails(
 		String productName,
@@ -22,8 +21,8 @@ public class ProductDetails {
 		String description,
 		Integer likeCount,
 		List<ProductOptionResponse> productOptionResponses,
-		List<ProductImageResponse> productImageResponses,
-		List<ProductReviewResponse> productReviewResponses) {
+		List<ProductImageResponse> productImageResponses
+	) {
 
 		this.productName = productName;
 		this.price = price;
@@ -31,15 +30,13 @@ public class ProductDetails {
 		this.likeCount = likeCount;
 		this.productOptionResponses = productOptionResponses;
 		this.productImageResponses = productImageResponses;
-		this.productReviewResponses = productReviewResponses;
 	}
 
 	public static ProductDetails of(
 		Product product,
 		List<ProductOptionResponse> productOptionResponses,
-		List<ProductImageResponse>  productImageResponses,
-		List<ProductReviewResponse>  productReviewResponses
-		) {
+		List<ProductImageResponse>  productImageResponses
+	) {
 
 		return new ProductDetails(
 			product.getProductName(),
@@ -47,7 +44,6 @@ public class ProductDetails {
 			product.getDescription(),
 			product.getLikeCount(),
 			productOptionResponses,
-			productImageResponses,
-			productReviewResponses);
+			productImageResponses);
 	}
 }
