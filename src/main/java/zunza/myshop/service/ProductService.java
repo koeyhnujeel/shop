@@ -14,12 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.ProductImage;
 import zunza.myshop.domain.ProductOption;
-import zunza.myshop.domain.ProductReview;
 import zunza.myshop.exception.ProductNotFoundException;
 import zunza.myshop.repository.ProductImageRepository;
 import zunza.myshop.repository.ProductOptionRepository;
 import zunza.myshop.repository.ProductRepository;
-import zunza.myshop.repository.ProductReviewRepository;
 import zunza.myshop.request.ProductRequest;
 import zunza.myshop.request.ProductOptionRequest;
 import zunza.myshop.request.ProductUpdateRequest;
@@ -30,7 +28,6 @@ import zunza.myshop.response.product_management.ProductDetailsForAdmin;
 import zunza.myshop.response.product_management.ProductImageResponseForAdmin;
 import zunza.myshop.response.product_management.ProductListResponseForAdmin;
 import zunza.myshop.response.product_detail.ProductOptionResponse;
-import zunza.myshop.response.product_detail.ProductReviewResponse;
 import zunza.myshop.response.main_view.TopSalesProductResponse;
 import zunza.myshop.response.product_management.ProductOptionResponseForAdmin;
 import zunza.myshop.util.ImageUtil;
@@ -43,7 +40,6 @@ public class ProductService {
 	private final ProductRepository productRepository;
 	private final ProductOptionRepository productOptionRepository;
 	private final ProductImageRepository productImageRepository;
-	private final ProductReviewRepository productReviewRepository;
 	private final ImageUtil imageUtil;
 
 
@@ -108,12 +104,7 @@ public class ProductService {
 			.map(productImage -> ProductImageResponse.from(productImage.getImageUrl()))
 			.toList();
 
-		List<ProductReview> productReviews = productReviewRepository.findReviewsAndUserByProductId(productId);
-		List<ProductReviewResponse> reviews = productReviews.stream()
-			.map(ProductReviewResponse::from)
-			.toList();
-
-		return ProductDetails.of(product, options, images, reviews);
+		return ProductDetails.of(product, options, images);
 	}
 
 	public List<ProductListResponseForAdmin> findProductListForAdmin(int page, int size, String keyword) {
