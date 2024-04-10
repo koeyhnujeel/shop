@@ -1,6 +1,7 @@
 package zunza.myshop.response.main_view;
 
 import lombok.Getter;
+import zunza.myshop.domain.Product;
 
 @Getter
 public class TopSalesProductResponse {
@@ -17,7 +18,11 @@ public class TopSalesProductResponse {
 		this.imageUrl = imageUrl;
 	}
 
-	public static TopSalesProductResponse of(Long id, String productName, Integer price, String imageUrl) {
-		return new TopSalesProductResponse(id, productName, price, imageUrl);
+	public static TopSalesProductResponse of(Product product, String thumbnailUrl) {
+		return new TopSalesProductResponse(
+			product.getId(),
+			product.getProductName(),
+			product.getPrice(),
+			thumbnailUrl);
 	}
 }
