@@ -48,9 +48,6 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-//test {
-//	useJUnitPlatform()
-//}
 
 ///// Querydsl 빌드 옵션 (옵셔널)
 def generated = 'src/main/generated'
