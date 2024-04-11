@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import zunza.myshop.domain.User;
+import zunza.myshop.exception.ExistsEmailException;
 import zunza.myshop.exception.ExistsNicknameException;
 import zunza.myshop.repository.UserRepository;
 import zunza.myshop.request.JoinRequest;
@@ -20,6 +21,11 @@ public class JoinService {
 		String encodePassword = passwordEncoder.encode(req.getPassword());
 		User user = User.of(req, encodePassword);
 		userRepository.save(user);
+	}
+
+	public void emailCheck(String email) {
+		Boolean result = userRepository.existsByEmail(email);
+		if(result) throw new ExistsEmailException();
 	}
 
 	public void nicknameCheck(String nickname) {

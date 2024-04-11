@@ -27,6 +27,14 @@ public class JoinController {
 		joinService.userAdd(req);
 	}
 
+	@GetMapping("/join/email/exists")
+	@ResponseStatus(HttpStatus.OK)
+	public void checkEmail(
+		@RequestParam("email") String email) {
+
+		joinService.emailCheck(email);
+	}
+
 	@GetMapping("/join/nickname/exists")
 	@ResponseStatus(HttpStatus.OK)
 	public void checkNickname(
