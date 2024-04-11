@@ -1,6 +1,7 @@
 package zunza.myshop.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,8 +20,17 @@ public class JoinController {
 
 	@PostMapping("/join")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void addUser(@RequestBody @Valid JoinRequest req) {
+	public void addUser(
+		@RequestBody @Valid JoinRequest req) {
 
 		joinService.userAdd(req);
+	}
+
+	@PostMapping("/join/{nickname}/exists")
+	@ResponseStatus(HttpStatus.OK)
+	public void checkNickname(
+		@PathVariable("nickname") String nickname) {
+
+		joinService.nicknameCheck(nickname);
 	}
 }
