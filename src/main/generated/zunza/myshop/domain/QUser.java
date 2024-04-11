@@ -31,6 +31,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final DateTimePath<java.time.LocalDateTime> registrationDate = createDateTime("registrationDate", java.time.LocalDateTime.class);
 
+    public final EnumPath<zunza.myshop.constant.Role> role = createEnum("role", zunza.myshop.constant.Role.class);
+
     public QUser(String variable) {
         super(User.class, forVariable(variable));
     }
