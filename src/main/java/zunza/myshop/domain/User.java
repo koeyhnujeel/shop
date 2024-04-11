@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +14,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zunza.myshop.constant.Role;
+import zunza.myshop.request.JoinRequest;
 
 @Getter
 @Entity
@@ -36,6 +40,10 @@ public class User {
 	@Column(name = "USER_ADDRESS", nullable = false)
 	private String address;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "USER_ROLE", nullable = false)
+	private Role role;
+
 	@Column(name = "USER_REGISTRATION_DATE")
 	private LocalDateTime registrationDate;
 
@@ -44,12 +52,23 @@ public class User {
 		String email,
 		String password,
 		String nickname,
-		String address) {
+		String address,
+		Role role) {
 
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
 		this.address = address;
 		this.registrationDate = LocalDateTime.now().withNano(0);
+		this.role = Role.USER;
+	}
+
+	public static User of(JoinRequest joinRequest, String encodePassword) {
+		return User.builder()
+			.email(joinRequest.getEmail())
+			.password(encodePassword)
+			.nickname(joinRequest.getNickname())
+			.address(joinRequest.getAddress())
+			.build();
 	}
 }
