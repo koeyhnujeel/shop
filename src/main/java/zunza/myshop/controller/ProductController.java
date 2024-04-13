@@ -32,7 +32,7 @@ public class ProductController {
 
 	private final ProductService productService;
 
-	@PostMapping("/products/management")
+	@PostMapping("/admin/products")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productAdd(
 		@RequestPart("productRequest") @Valid ProductRequest productRequest,
@@ -56,7 +56,7 @@ public class ProductController {
 		return productService.findProduct(productId);
 	}
 
-	@GetMapping("/products/management")
+	@GetMapping("/admin/products")
 	@ResponseStatus(HttpStatus.OK)
 	public List<ProductListResponseForAdmin> productListForAdmin(
 		@RequestParam(value = "page", defaultValue = "1") int page,
@@ -66,7 +66,7 @@ public class ProductController {
 		return productService.findProductListForAdmin(page, size, keyword);
 	}
 
-	@GetMapping("/products/management/{productId}")
+	@GetMapping("/admin/products/{productId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ProductDetailsForAdmin productDetailsForAdmin(
 		@PathVariable("productId") Long productId) {
@@ -74,7 +74,7 @@ public class ProductController {
 		return productService.findProductForAdmin(productId);
 	}
 
-	@PatchMapping("/products/management/{productId}")
+	@PatchMapping("/admin/products/{productId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void productModify(
 		@PathVariable("productId") Long productId,

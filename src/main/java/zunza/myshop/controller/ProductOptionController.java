@@ -22,7 +22,7 @@ public class ProductOptionController {
 
 	private final ProductOptionService productOptionService;
 
-	@PostMapping("/products/management/{productId}/product-options")
+	@PostMapping("/admin/products/{productId}/product-options")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void productOptionsAdd(
 		@PathVariable("productId") Long productId,
@@ -31,7 +31,7 @@ public class ProductOptionController {
 		productOptionService.addProductOptions(productId, productOptionRequests);
 	}
 
-	@PatchMapping("/product-options/{product-optionId}")
+	@PatchMapping("/admin/product-options/{product-optionId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void productOptionModify(
 		@PathVariable("product-optionId") Long productOptionId,
@@ -40,7 +40,7 @@ public class ProductOptionController {
 		productOptionService.modifyProductOption(productOptionId, productOptionUpdateRequest);
 	}
 
-	@DeleteMapping("/product-options/{product-optionId}")
+	@DeleteMapping("/admin/product-options/{product-optionId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void productOptionRemove(@PathVariable("product-optionId") Long productOptionId) {
 
