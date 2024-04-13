@@ -30,7 +30,7 @@ public class JoinController {
 	@GetMapping("/join/email/exists")
 	@ResponseStatus(HttpStatus.OK)
 	public void checkEmail(
-		@RequestParam("email") String email) {
+		@RequestParam("email") @Valid String email) {
 
 		joinService.emailCheck(email);
 	}
