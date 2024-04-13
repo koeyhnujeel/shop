@@ -28,6 +28,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "USER_NAME", nullable = false)
+	private String name;
+
 	@Column(name = "USER_EMAIL", nullable = false)
 	private String email;
 
@@ -49,12 +52,14 @@ public class User {
 
 	@Builder
 	private User(
+		String name,
 		String email,
 		String password,
 		String nickname,
 		String address,
 		Role role) {
 
+		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -65,6 +70,7 @@ public class User {
 
 	public static User of(JoinRequest joinRequest, String encodePassword) {
 		return User.builder()
+			.name(joinRequest.getName())
 			.email(joinRequest.getEmail())
 			.password(encodePassword)
 			.nickname(joinRequest.getNickname())

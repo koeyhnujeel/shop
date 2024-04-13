@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JoinRequest {
 
+	@NotBlank(message = "이름을 입력해 주세요.")
+	private String name;
+
 	@Email(message = "잘못된 이메일 형식입니다.")
 	@NotBlank(message = "이메일을 입력해 주세요.")
 	private String email;
