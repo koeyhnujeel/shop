@@ -36,3 +36,5 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
+  jwt:
+    secret: ${SPRING_JWT_SECRET}
