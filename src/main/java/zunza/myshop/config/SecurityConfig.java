@@ -59,6 +59,7 @@ public class SecurityConfig {
 			// 경로 인가
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 				.anyRequest().permitAll())
 
 			.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
