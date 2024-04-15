@@ -15,6 +15,7 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, Lo
 	@Query("select DISTINCT r "
 		+ "from ProductReview r "
 		+ "join fetch r.user "
-		+ "where r.product.id = :ProductId")
+		+ "where r.product.id = :ProductId "
+		+ "ORDER BY r.createdAt DESC")
 	List<ProductReview> findReviewsByProductId(@Param("ProductId") Long ProductId);
 }
