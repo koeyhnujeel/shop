@@ -66,11 +66,10 @@ public class SecurityConfig {
 				new LoginFilter(authenticationManager(authenticationConfiguration), objectMapper, jwtUtil),
 				UsernamePasswordAuthenticationFilter.class
 			)
-			.exceptionHandling(e ->{
+			.exceptionHandling(e -> {
 				e.authenticationEntryPoint(new Http401Handler(objectMapper));
 				e.accessDeniedHandler(new Http403Handler(objectMapper));
 			})
-
 
 			// 세션 설정
 			.sessionManagement(session -> session

@@ -54,7 +54,6 @@ public class JWTFilter extends OncePerRequestFilter {
 		Long userId = jwtUtil.getUserId(token);
 		String role = jwtUtil.getRole(token);
 
-
 		// 스프링 시큐리티 인증 토큰 생성
 		Authentication authToken = new UsernamePasswordAuthenticationToken(
 			userId,
