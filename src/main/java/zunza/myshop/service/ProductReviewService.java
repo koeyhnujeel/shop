@@ -56,6 +56,16 @@ public class ProductReviewService {
 		review.updateReview(req.getContent());
 	}
 
+	@Transactional
+	public void removeReview(Long userId, Long reviewId) {
+		ProductReview review = productReviewRepository.findById(reviewId)
+			.orElseThrow(() -> new ReviewNotFoundException(reviewId));
+
+		checkWriter(userId, review);
+
+		productReviewRepository.delete(review);
+	}
+
 	private void checkWriter(Long userId, ProductReview review) {
 		if (!Objects.equals(review.getUser().getId(), userId)) {
 			throw new PermissionDeniedException();
