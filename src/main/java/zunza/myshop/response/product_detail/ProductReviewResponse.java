@@ -14,9 +14,9 @@ public class ProductReviewResponse {
 	private String content;
 	private String createdAt;
 
-	private ProductReviewResponse(Long id, Long userId, String nickname, String content, String createdAt) {
-		this.id = id;
-		this.id = userId;
+	private ProductReviewResponse(Long reviewId, Long userId, String nickname, String content, String createdAt) {
+		this.id = reviewId;
+		this.userId = userId;
 		this.nickname = nickname;
 		this.content = content;
 		this.createdAt = createdAt;
