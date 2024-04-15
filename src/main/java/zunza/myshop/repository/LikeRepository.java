@@ -1,5 +1,7 @@
 package zunza.myshop.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +26,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 		+ "AND l.product.id = :productId "
 		+ "AND l.likeStatus = 'TRUE'")
 	boolean isLiked(@Param("userId") Long userId, @Param("productId") Long productId);
+
+	Optional<Like> findByUserIdAndProductId(Long userId, Long productId);
 }
