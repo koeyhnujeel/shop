@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import zunza.myshop.constant.LikeStatus;
 import zunza.myshop.domain.Like;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.User;
