@@ -2,6 +2,7 @@ package zunza.myshop.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -54,11 +55,13 @@ public class JWTUtil {
 	}
 
 	public String createJwt(Long userId, String role, Long expiredMs) {
+		Date nowInKST = new Date(System.currentTimeMillis() + TimeZone.getTimeZone("Asia/Seoul").getOffset(System.currentTimeMillis()));
+
 		return Jwts.builder()
 			.claim("userId", userId)
 			.claim("role", role)
-			.issuedAt(new Date(System.currentTimeMillis()))
-			.expiration(new Date(System.currentTimeMillis() + expiredMs))
+			.issuedAt(nowInKST)
+			.expiration(new Date(nowInKST.getTime() + expiredMs))
 			.signWith(secretKey)
 			.compact();
 	}
