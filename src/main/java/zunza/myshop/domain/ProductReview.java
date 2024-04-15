@@ -68,4 +68,8 @@ public class ProductReview {
 			.content(req.getContent())
 			.build();
 	}
+
+	public void updateReview(String content) {
+		this.content = content;
+	}
 }
