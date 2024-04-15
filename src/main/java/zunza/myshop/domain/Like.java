@@ -55,7 +55,11 @@ public class Like {
 			.build();
 	}
 
-	public void updateLikeStatus() {
-		this.likeStatus = this.likeStatus.equals(LikeStatus.FALSE) ? LikeStatus.TRUE : LikeStatus.FALSE;
+	public void likeOn() {
+		this.likeStatus = LikeStatus.TRUE;
+	}
+
+	public void likeOff() {
+		this.likeStatus = LikeStatus.FALSE;
 	}
 }
