@@ -1,6 +1,7 @@
 package zunza.myshop.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.ProductReview;
 import zunza.myshop.domain.User;
+import zunza.myshop.exception.PermissionDeniedException;
 import zunza.myshop.exception.ProductNotFoundException;
 import zunza.myshop.exception.ReviewNotFoundException;
 import zunza.myshop.exception.UserNotFoundException;
@@ -42,5 +44,21 @@ public class ProductReviewService {
 
 		ProductReview productReview = ProductReview.of(user, product, req);
 		productReviewRepository.save(productReview);
+	}
+
+	@Transactional
+	public void modifyReview(Long userId, Long reviewId, ModifyReviewRequest req) {
+		ProductReview review = productReviewRepository.findById(reviewId)
+			.orElseThrow(() -> new ReviewNotFoundException(reviewId));
+
+		checkWriter(userId, review);
+
+		review.updateReview(req.getContent());
+	}
+
+	private void checkWriter(Long userId, ProductReview review) {
+		if (!Objects.equals(review.getUser().getId(), userId)) {
+			throw new PermissionDeniedException();
+		}
 	}
 }
