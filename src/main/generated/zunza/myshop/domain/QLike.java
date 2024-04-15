@@ -24,6 +24,8 @@ public class QLike extends EntityPathBase<Like> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final EnumPath<zunza.myshop.constant.LikeStatus> likeStatus = createEnum("likeStatus", zunza.myshop.constant.LikeStatus.class);
+
     public final QProduct product;
 
     public final QUser user;

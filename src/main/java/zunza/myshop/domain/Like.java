@@ -3,6 +3,8 @@ package zunza.myshop.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zunza.myshop.constant.LikeStatus;
 
 @Getter
 @Entity
@@ -34,10 +37,15 @@ public class Like {
 	@JoinColumn(name = "PRODUCT_ID")
 	private Product product;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "LIKE_STATUS", nullable = false)
+	private LikeStatus likeStatus;
+
 	@Builder
 	private Like(User user, Product product) {
 		this.user = user;
 		this.product = product;
+		this.likeStatus = LikeStatus.TRUE;
 	}
 
 	public static Like of(User user, Product product) {
