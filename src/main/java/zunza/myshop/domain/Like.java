@@ -54,4 +54,8 @@ public class Like {
 			.product(product)
 			.build();
 	}
+
+	public void updateLikeStatus() {
+		this.likeStatus = this.likeStatus.equals(LikeStatus.FALSE) ? LikeStatus.TRUE : LikeStatus.FALSE;
+	}
 }
