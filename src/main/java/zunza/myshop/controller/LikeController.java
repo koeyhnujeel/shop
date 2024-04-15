@@ -35,4 +35,13 @@ public class LikeController {
 
 		likeService.like(userId, productId);
 	}
+
+	@PostMapping("/user/products/{productId}/cancel-likes")
+	@ResponseStatus(HttpStatus.OK)
+	public void likeCancel(
+		@AuthenticationPrincipal Long userId,
+		@PathVariable("productId") Long productId) {
+
+		likeService.cancelLike(userId, productId);
+	}
 }

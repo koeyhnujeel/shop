@@ -45,6 +45,14 @@ public class LikeService {
 		like.likeOn();
 	}
 
+	@Transactional
+	public void cancelLike(Long userId, Long productId) {
+		Like like = likeRepository.findByUserIdAndProductId(userId, productId)
+			.orElseThrow(LikeNotFoundException::new);
+
+		like.likeOff();
+	}
+
 	private Like createNewLike(Long userId, Long productId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new UserNotFoundException(userId));
