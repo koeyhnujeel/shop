@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zunza.myshop.request.AddReviewRequest;
 
 @Getter
 @Entity
@@ -56,15 +57,15 @@ public class ProductReview {
 		this.createdAt = LocalDateTime.now().withNano(0);
 	}
 
-	// public static ProductReview of(
-	// 	User user,
-	// 	Product product,
-	// 	ReviewRequest reviewRequest) {
-	//
-	// 	return ProductReview.builder()
-	// 		.user(user)
-	// 		.product(product)
-	// 		.content(reviewRequest.content)
-	// 		.build();
-	// }
+	public static ProductReview of(
+		User user,
+		Product product,
+		AddReviewRequest req) {
+
+		return ProductReview.builder()
+			.user(user)
+			.product(product)
+			.content(req.getContent())
+			.build();
+	}
 }
