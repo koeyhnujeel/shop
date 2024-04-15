@@ -1,15 +1,16 @@
 package zunza.myshop.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import zunza.myshop.constant.LikeStatus;
 import zunza.myshop.domain.Like;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.User;
+import zunza.myshop.exception.LikeNotFoundException;
 import zunza.myshop.exception.ProductNotFoundException;
 import zunza.myshop.exception.UserNotFoundException;
 import zunza.myshop.repository.LikeRepository;
@@ -38,18 +39,19 @@ public class LikeService {
 
 	@Transactional
 	public void like(Long userId, Long productId) {
-		Optional<Like> optionalLike = likeRepository.findByUserIdAndProductId(userId, productId);
-		if (optionalLike.isPresent()) {
-			Like like = optionalLike.get();
-			like.updateLikeStatus();
-		} else {
-			User user = userRepository.findById(userId)
-				.orElseThrow(() -> new UserNotFoundException(userId));
+		Like like = likeRepository.findByUserIdAndProductId(userId, productId)
+			.orElseGet(() -> createNewLike(userId, productId));
 
-			Product product = productRepository.findById(productId)
-				.orElseThrow(() -> new ProductNotFoundException(productId));
-
-			likeRepository.save(Like.of(user, product));
-		}
+		like.likeOn();
 	}
+
+	private Like createNewLike(Long userId, Long productId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new UserNotFoundException(userId));
+
+		Product product = productRepository.findById(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+		return likeRepository.save(Like.of(user, product));
+	}
+
 }
