@@ -2,6 +2,7 @@ package zunza.myshop.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import zunza.myshop.request.AuthRequest;
 import zunza.myshop.request.ModifyPasswordRequest;
 import zunza.myshop.request.ModifyProfileRequest;
+import zunza.myshop.response.ProfileResponse;
 import zunza.myshop.service.UserService;
 
 @RestController
@@ -27,6 +29,14 @@ public class UserController {
 		@RequestBody AuthRequest req) {
 
 		userService.checkPassword(userId, req);
+	}
+
+	@GetMapping("/user/profile")
+	@ResponseStatus(HttpStatus.OK)
+	public ProfileResponse profileDetails(
+		@AuthenticationPrincipal Long userId) {
+
+		return userService.findProfile(userId);
 	}
 
 	@PatchMapping("/user/modify-profile")

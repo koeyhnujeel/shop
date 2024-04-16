@@ -13,6 +13,7 @@ import zunza.myshop.repository.UserRepository;
 import zunza.myshop.request.AuthRequest;
 import zunza.myshop.request.ModifyPasswordRequest;
 import zunza.myshop.request.ModifyProfileRequest;
+import zunza.myshop.response.ProfileResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +51,12 @@ public class UserService {
 
 		String encode = passwordEncoder.encode(req.getNewPassword());
 		user.passwordUpdate(encode);
+	}
+
+	public ProfileResponse findProfile(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new UserNotFoundException(userId));
+
+		return ProfileResponse.from(user);
 	}
 }
