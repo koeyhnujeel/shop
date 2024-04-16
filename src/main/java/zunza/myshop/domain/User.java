@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.constant.Role;
 import zunza.myshop.request.JoinRequest;
+import zunza.myshop.request.ModifyProfileRequest;
 
 @Getter
 @Entity
@@ -76,5 +77,12 @@ public class User {
 			.nickname(joinRequest.getNickname())
 			.address(joinRequest.getAddress())
 			.build();
+	}
+
+	public void profileUpdate(ModifyProfileRequest req) {
+		this.name = req.getName();
+		this.email = req.getEmail();
+		this.nickname = req.getNickname();
+		this.address = req.getAddress();
 	}
 }
