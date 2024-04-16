@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import zunza.myshop.request.AuthRequest;
+import zunza.myshop.request.ModifyPasswordRequest;
 import zunza.myshop.request.ModifyProfileRequest;
 import zunza.myshop.service.UserService;
 
@@ -35,5 +36,14 @@ public class UserController {
 		@RequestBody ModifyProfileRequest req) {
 
 		userService.modifyProfile(userId, req);
+	}
+
+	@PatchMapping("/user/modify-password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void passwordModify(
+		@AuthenticationPrincipal Long userId,
+		@RequestBody ModifyPasswordRequest req) {
+
+		userService.modifyPassword(userId, req);
 	}
 }
