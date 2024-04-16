@@ -67,12 +67,12 @@ public class ProductService {
 
 		List<Product> topSalesProductsWithImages = productRepository.findProductsAndImageByCriteria("sales");
 		List<TopSalesProductResponse> topSalesProducts = topSalesProductsWithImages.stream()
-			.map(product -> TopSalesProductResponse.of(product, getThumbnailUrl(product)))
+			.map(product -> TopSalesProductResponse.of(product, imageUtil.getThumbnailUrl(product)))
 			.toList();
 
 		List<Product> latestProductsWithImages = productRepository.findProductsAndImageByCriteria("latest");
 		List<LatestProductResponse> latestProducts = latestProductsWithImages.stream()
-			.map(product -> LatestProductResponse.of(product, getThumbnailUrl(product)))
+			.map(product -> LatestProductResponse.of(product, imageUtil.getThumbnailUrl(product)))
 			.toList();
 
 		Map<String, Object> mainViewResponse = new HashMap<>();
@@ -80,15 +80,6 @@ public class ProductService {
 		mainViewResponse.put("latestProducts", latestProducts);
 
 		return mainViewResponse;
-	}
-
-	private String getThumbnailUrl(Product product) {
-		return String.valueOf(product.getImages().stream()
-			.filter(productImage -> productImage.getImageName().startsWith("thumbnail"))
-			.findFirst()
-			.map(ProductImage::getImageUrl)
-			.orElse("")
-		);
 	}
 
 	public ProductDetails findProduct(Long productId) {

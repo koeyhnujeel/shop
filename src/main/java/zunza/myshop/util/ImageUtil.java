@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import net.coobird.thumbnailator.Thumbnails;
 
 import zunza.myshop.constant.ImageSize;
+import zunza.myshop.domain.Product;
 import zunza.myshop.domain.ProductImage;
 
 @Component
@@ -114,5 +115,14 @@ public class ImageUtil {
 
 		updateImage(newImage, mainImage, ImageSize.NORMAL_IMAGE_WIDTH, ImageSize.NORMAL_IMAGE_HEIGHT, "main-");
 		updateImage(newImage, thumbnail, ImageSize.THUMBNAIL_IMAGE_WIDTH, ImageSize.THUMBNAIL_IMAGE_HEIGHT, "thumbnail");
+	}
+
+	public String getThumbnailUrl(Product product) {
+		return String.valueOf(product.getImages().stream()
+			.filter(productImage -> productImage.getImageName().startsWith("thumbnail"))
+			.findFirst()
+			.map(ProductImage::getImageUrl)
+			.orElse("")
+		);
 	}
 }
