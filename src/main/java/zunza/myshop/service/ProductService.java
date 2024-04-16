@@ -131,10 +131,18 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void productModify(Long productId, ProductUpdateRequest productUpdateRequest) {
+	public void modifyProduct(Long productId, ProductUpdateRequest productUpdateRequest) {
 		Product product = productRepository.findById(productId)
 			.orElseThrow(() -> new ProductNotFoundException(productId));
 
 		product.modify(productUpdateRequest);
+	}
+
+	@Transactional
+	public void removeProduct(Long productId) {
+		Product product = productRepository.findById(productId)
+			.orElseThrow(() -> new ProductNotFoundException(productId));
+
+		productRepository.delete(product);
 	}
 }
