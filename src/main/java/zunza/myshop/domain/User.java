@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zunza.myshop.constant.Role;
 import zunza.myshop.request.JoinRequest;
+import zunza.myshop.request.ModifyPasswordRequest;
 import zunza.myshop.request.ModifyProfileRequest;
 
 @Getter
@@ -84,5 +85,9 @@ public class User {
 		this.email = req.getEmail();
 		this.nickname = req.getNickname();
 		this.address = req.getAddress();
+	}
+
+	public void passwordUpdate(String newEncodedPassword) {
+		this.password = newEncodedPassword;
 	}
 }
