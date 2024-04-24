@@ -2,10 +2,8 @@ package zunza.myshop.service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -19,9 +17,9 @@ import zunza.myshop.exception.UserNotFoundException;
 import zunza.myshop.repository.LikeRepository;
 import zunza.myshop.repository.ProductRepository;
 import zunza.myshop.repository.UserRepository;
+import zunza.myshop.repository.redis.CustomRedisRepository;
 import zunza.myshop.response.UserLikeResponse;
 import zunza.myshop.response.product_detail.LikeResponse;
-import zunza.myshop.util.ImageUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +28,21 @@ public class LikeService {
 	private final LikeRepository likeRepository;
 	private final UserRepository userRepository;
 	private final ProductRepository productRepository;
-	private final ImageUtil imageUtil;
+	private final CustomRedisRepository redisRepository;
 
 	public LikeResponse count(Long userId, Long productId) {
+		boolean liked = isLiked(userId, productId);
+
+		Object cachedLike = redisRepository.get("like::" + productId);
+		if (Objects.nonNull(cachedLike)) {
+			Long likeCount = ((Number)cachedLike).longValue();
+			return LikeResponse.of(likeCount, liked);
+		}
 
 		Long count = likeRepository.countLike(productId);
-		boolean liked = false;
 
-		if (Objects.nonNull(userId)) {
-			liked = likeRepository.isLiked(userId, productId);
-		}
+		redisRepository.set("like::" + productId, count);
+		redisRepository.setTimeToLive("like::" + productId, 60L);
 
 		return LikeResponse.of(count, liked);
 	}
@@ -50,6 +53,7 @@ public class LikeService {
 			.orElseGet(() -> createNewLike(userId, productId));
 
 		like.likeOn();
+		redisRepository.delete("like::" + productId);
 	}
 
 	@Transactional
@@ -58,6 +62,24 @@ public class LikeService {
 			.orElseThrow(LikeNotFoundException::new);
 
 		like.likeOff();
+		redisRepository.delete("like::" + productId);
+	}
+
+	public List<UserLikeResponse> findUserLikeProducts(Long userId) {
+		List<Like> userLike = likeRepository.findUserLike(userId);
+
+		return userLike.stream()
+			.map(like -> UserLikeResponse.from(like.getProduct()))
+			.collect(Collectors.toList());
+	}
+
+	private boolean isLiked(Long userId, Long productId) {
+		boolean liked = false;
+
+		if (Objects.nonNull(userId)) {
+			liked = likeRepository.isLiked(userId, productId);
+		}
+		return liked;
 	}
 
 	private Like createNewLike(Long userId, Long productId) {
@@ -67,14 +89,6 @@ public class LikeService {
 		Product product = productRepository.findById(productId)
 			.orElseThrow(() -> new ProductNotFoundException(productId));
 		return likeRepository.save(Like.of(user, product));
-	}
-
-	public List<UserLikeResponse> findUserLikeProducts(Long userId) {
-		List<Like> userLike = likeRepository.findUserLike(userId);
-
-		return userLike.stream()
-			.map(like -> UserLikeResponse.from(like.getProduct()))
-			.collect(Collectors.toList());
 	}
 }
 
