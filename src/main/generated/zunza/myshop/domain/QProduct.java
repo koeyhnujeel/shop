@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -24,21 +23,13 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final StringPath description = createString("description");
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<ProductImage, QProductImage> images = this.<ProductImage, QProductImage>createList("images", ProductImage.class, QProductImage.class, PathInits.DIRECT2);
-
-    public final NumberPath<Integer> likeCount = createNumber("likeCount", Integer.class);
-
-    public final ListPath<ProductOption, QProductOption> options = this.<ProductOption, QProductOption>createList("options", ProductOption.class, QProductOption.class, PathInits.DIRECT2);
+    public final StringPath image = createString("image");
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
     public final StringPath productName = createString("productName");
-
-    public final NumberPath<Integer> salesRate = createNumber("salesRate", Integer.class);
 
     public QProduct(String variable) {
         super(Product.class, forVariable(variable));
