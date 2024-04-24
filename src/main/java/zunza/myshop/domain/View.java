@@ -1,10 +1,7 @@
 package zunza.myshop.domain;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,50 +13,36 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import zunza.myshop.constant.LikeStatus;
 
 @Getter
 @Entity
-@Table(name = "LIKES")
+@Table(name = "views")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class View {
 
 	@Id
-	@Column(name = "LIKE_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "view_id", nullable = false)
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "LIKE_STATUS", nullable = false)
-	private LikeStatus likeStatus;
-
 	@Builder
-	private Like(User user, Product product) {
+	private View(User user, Product product) {
 		this.user = user;
 		this.product = product;
-		this.likeStatus = LikeStatus.TRUE;
 	}
 
-	public static Like of(User user, Product product) {
-		return Like.builder()
+	public static View of(User user, Product product) {
+		return View.builder()
 			.user(user)
 			.product(product)
 			.build();
-	}
-
-	public void likeOn() {
-		this.likeStatus = LikeStatus.TRUE;
-	}
-
-	public void likeOff() {
-		this.likeStatus = LikeStatus.FALSE;
 	}
 }

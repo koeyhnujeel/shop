@@ -11,10 +11,4 @@ import zunza.myshop.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
-
-	@Query("SELECT DISTINCT p "
-		+ "FROM Product p "
-		+ "JOIN FETCH p.images "
-		+ "WHERE p.id = :productId")
-	Optional<Product> findProductAndImageFetchJoin(@Param("productId") Long productId);
 }

@@ -20,9 +20,9 @@ import zunza.myshop.request.AddReviewRequest;
 
 @Getter
 @Entity
-@Table(name = "PRODUCT_REVIEW")
+@Table(name = "REVIEWS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductReview {
+public class Review {
 
 	@Id
 	@Column(name = "PRODUCT_REVIEW_ID")
@@ -30,22 +30,22 @@ public class ProductReview {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
+	@JoinColumn(name = "USER_ID", nullable = false)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_ID")
+	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 
 	@Lob
-	@Column(name = "PRODUCT_REVIEW_CONTENT", nullable = false)
+	@Column(name = "REVIEW_CONTENT", nullable = false)
 	private String content;
 
-	@Column(name = "PRODUCT_REVIEW_CREATED_DATE", nullable = false)
+	@Column(name = "REVIEW_CREATED_DATE", nullable = false)
 	private LocalDateTime createdAt;
 
 	@Builder
-	private ProductReview(
+	private Review(
 		User user,
 		Product product,
 		String content,
@@ -57,12 +57,12 @@ public class ProductReview {
 		this.createdAt = LocalDateTime.now().withNano(0);
 	}
 
-	public static ProductReview of(
+	public static Review of(
 		User user,
 		Product product,
 		AddReviewRequest req) {
 
-		return ProductReview.builder()
+		return Review.builder()
 			.user(user)
 			.product(product)
 			.content(req.getContent())

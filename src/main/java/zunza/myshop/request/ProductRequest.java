@@ -22,14 +22,7 @@ public class ProductRequest {
 	@NotNull(message = "카테고리를 선택해주세요.")
 	private Category category;
 
-	@NotBlank(message = "상품 설명을 입력해주세요.")
-	private String description;
-
-	@Builder
-	public ProductRequest(String productName, Integer price, Category category, String description) {
-		this.productName = productName;
-		this.price = price;
-		this.category = category;
-		this.description = description;
-	}
+	@Min(value = 10, message = "최소 수량은 10갸 입니다.")
+	@NotNull(message = "상품 재고량을 입력해주세요.")
+	private Integer quantity;
 }

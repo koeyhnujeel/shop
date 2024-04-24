@@ -2,8 +2,10 @@ package zunza.myshop.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -31,6 +33,7 @@ public class LikeService {
 	private final ImageUtil imageUtil;
 
 	public LikeResponse count(Long userId, Long productId) {
+
 		Long count = likeRepository.countLike(productId);
 		boolean liked = false;
 
@@ -66,15 +69,15 @@ public class LikeService {
 		return likeRepository.save(Like.of(user, product));
 	}
 
-	public List<UserLikeResponse> findUserLikeProducts(Long userId) {
-		List<Like> userLike = likeRepository.findUserLike(userId);
-
-		return userLike.stream()
-			.map(like -> UserLikeResponse.of(
-				like.getProduct(),
-				imageUtil.getThumbnailUrl(like.getProduct())
-			))
-			.collect(Collectors.toList());
-	}
+	// public List<UserLikeResponse> findUserLikeProducts(Long userId) {
+	// 	List<Like> userLike = likeRepository.findUserLike(userId);
+	//
+	// 	return userLike.stream()
+	// 		.map(like -> UserLikeResponse.of(
+	// 			like.getProduct(),
+	// 			imageUtil.getThumbnailUrl(like.getProduct())
+	// 		))
+	// 		.collect(Collectors.toList());
+	// }
 }
 

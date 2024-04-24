@@ -13,46 +13,45 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import zunza.myshop.domain.Product;
 import zunza.myshop.domain.QProduct;
-import zunza.myshop.domain.QProductImage;
 
 @RequiredArgsConstructor
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
-	private final JPAQueryFactory jpaQueryFactory;
+	// private final JPAQueryFactory jpaQueryFactory;
 
-	@Override
-	public List<Product> findProductsAndImageByCriteria(String criteria) {
-		QProduct product = QProduct.product;
-		QProductImage productImage = QProductImage.productImage;
+	// @Override
+	// public List<Product> findProductsAndImageByCriteria(String criteria) {
+	// 	QProduct product = QProduct.product;
+	// 	QProductImage productImage = QProductImage.productImage;
+	//
+	// 	return jpaQueryFactory.selectFrom(product)
+	// 		.leftJoin(product.images, productImage).fetchJoin()
+	// 		.distinct()
+	// 		.orderBy(getOrderSpecifier(criteria))
+	// 		.limit(14)
+	// 		.fetch();
+	// }
 
-		return jpaQueryFactory.selectFrom(product)
-			.leftJoin(product.images, productImage).fetchJoin()
-			.distinct()
-			.orderBy(getOrderSpecifier(criteria))
-			.limit(14)
-			.fetch();
-	}
+	// private OrderSpecifier getOrderSpecifier(String criteria) {
+	// 	if (criteria.equals("sales")) return new OrderSpecifier<>(Order.DESC, QProduct.product.salesRate);
+	// 	else if (criteria.equals("latest")) return new OrderSpecifier<>(Order.DESC, QProduct.product.createdAt);
+	// 	return null;
+	// };
 
-	private OrderSpecifier getOrderSpecifier(String criteria) {
-		if (criteria.equals("sales")) return new OrderSpecifier<>(Order.DESC, QProduct.product.salesRate);
-		else if (criteria.equals("latest")) return new OrderSpecifier<>(Order.DESC, QProduct.product.createdAt);
-		return null;
-	};
-
-	@Override
-	public List<Product> findProductAndImageForAdmin(
-		int page, int size, String keyword) {
-
-		QProduct product = QProduct.product;
-		QProductImage productImage = QProductImage.productImage;
-
-		return jpaQueryFactory.selectFrom(product)
-			.leftJoin(product.images, productImage).fetchJoin()
-			.where(likeKeyword(keyword))
-			.offset(getOffset(page, size))
-			.limit(size)
-			.fetch();
-	}
+	// @Override
+	// public List<Product> findProductAndImageForAdmin(
+	// 	int page, int size, String keyword) {
+	//
+	// 	QProduct product = QProduct.product;
+	// 	QProductImage productImage = QProductImage.productImage;
+	//
+	// 	return jpaQueryFactory.selectFrom(product)
+	// 		.leftJoin(product.images, productImage).fetchJoin()
+	// 		.where(likeKeyword(keyword))
+	// 		.offset(getOffset(page, size))
+	// 		.limit(size)
+	// 		.fetch();
+	// }
 
 	private BooleanExpression likeKeyword(String keyword) {
 		if (StringUtils.isEmpty(keyword)) {

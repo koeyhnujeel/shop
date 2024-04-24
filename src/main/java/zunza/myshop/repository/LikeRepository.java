@@ -33,7 +33,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 	@Query("SELECT l FROM "
 		+ "Like l "
 		+ "JOIN FETCH l.product p "
-		+ "JOIN FETCH p.images "
 		+ "WHERE l.user.id = :userId "
 		+ "AND l.likeStatus = 'TRUE'")
 	List<Like> findUserLike(@Param("userId") Long userId);

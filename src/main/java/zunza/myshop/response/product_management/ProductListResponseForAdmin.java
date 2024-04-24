@@ -2,7 +2,6 @@ package zunza.myshop.response.product_management;
 
 import lombok.Getter;
 import zunza.myshop.domain.Product;
-import zunza.myshop.domain.ProductImage;
 
 @Getter
 public class ProductListResponseForAdmin {
@@ -21,14 +20,14 @@ public class ProductListResponseForAdmin {
 		this.thumbnailUrl = thumbnailUrl;
 	}
 
-	public static ProductListResponseForAdmin from(Product product) {
-		return new ProductListResponseForAdmin(
-			product.getId(),
-			product.getProductName(),
-			product.getImages().stream()
-				.filter(productImage -> productImage.getImageName().startsWith("thumbnail"))
-				.findFirst()
-				.map(ProductImage::getImageUrl)
-				.orElse(""));
-	}
+	// public static ProductListResponseForAdmin from(Product product) {
+	// 	return new ProductListResponseForAdmin(
+	// 		product.getId(),
+	// 		product.getProductName(),
+	// 		product.getImages().stream()
+	// 			.filter(productImage -> productImage.getImageName().startsWith("thumbnail"))
+	// 			.findFirst()
+	// 			.map(ProductImage::getImageUrl)
+	// 			.orElse(""));
+	// }
 }

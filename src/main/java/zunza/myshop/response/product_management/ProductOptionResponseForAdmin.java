@@ -1,7 +1,6 @@
 package zunza.myshop.response.product_management;
 
 import lombok.Getter;
-import zunza.myshop.domain.ProductOption;
 
 @Getter
 public class ProductOptionResponseForAdmin {
@@ -18,12 +17,12 @@ public class ProductOptionResponseForAdmin {
 		this.stock = stock;
 	}
 
-	public static ProductOptionResponseForAdmin from(ProductOption productOption) {
-		return new ProductOptionResponseForAdmin(
-			productOption.getId(),
-			productOption.getSize(),
-			productOption.getColor(),
-			productOption.getStock()
-		);
-	}
+	// public static ProductOptionResponseForAdmin from(ProductOption productOption) {
+	// 	return new ProductOptionResponseForAdmin(
+	// 		productOption.getId(),
+	// 		productOption.getSize(),
+	// 		productOption.getColor(),
+	// 		productOption.getStock()
+	// 	);
+	// }
 }

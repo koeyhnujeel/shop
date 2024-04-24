@@ -3,10 +3,10 @@ package zunza.myshop.response.product_detail;
 import java.time.format.DateTimeFormatter;
 
 import lombok.Getter;
-import zunza.myshop.domain.ProductReview;
+import zunza.myshop.domain.Review;
 
 @Getter
-public class ProductReviewResponse {
+public class ReviewResponse {
 
 	private Long id;
 	private Long userId;
@@ -14,7 +14,7 @@ public class ProductReviewResponse {
 	private String content;
 	private String createdAt;
 
-	private ProductReviewResponse(Long reviewId, Long userId, String nickname, String content, String createdAt) {
+	private ReviewResponse(Long reviewId, Long userId, String nickname, String content, String createdAt) {
 		this.id = reviewId;
 		this.userId = userId;
 		this.nickname = nickname;
@@ -22,8 +22,8 @@ public class ProductReviewResponse {
 		this.createdAt = createdAt;
 	}
 
-	public static ProductReviewResponse from(ProductReview productReview) {
-		return new ProductReviewResponse(
+	public static ReviewResponse from(Review productReview) {
+		return new ReviewResponse(
 			productReview.getId(),
 			productReview.getUser().getId(),
 			productReview.getUser().getNickname(),

@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import zunza.myshop.domain.ProductReview;
+import zunza.myshop.domain.Review;
 
 @Repository
-public interface ProductReviewRepository extends JpaRepository<ProductReview, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 	@Query("select DISTINCT r "
-		+ "from ProductReview r "
+		+ "from Review r "
 		+ "join fetch r.user "
 		+ "where r.product.id = :ProductId "
 		+ "ORDER BY r.createdAt DESC")
-	List<ProductReview> findReviewsByProductId(@Param("ProductId") Long ProductId);
+	List<Review> findReviewsByProductId(@Param("ProductId") Long ProductId);
 }

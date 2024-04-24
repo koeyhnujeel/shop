@@ -31,18 +31,18 @@ public class ProductDetailsForAdmin {
 		this.options = options;
 	}
 
-	public static ProductDetailsForAdmin of(
-		Product product,
-		List<ProductImageResponseForAdmin> images,
-		List<ProductOptionResponseForAdmin> options) {
-
-		return new ProductDetailsForAdmin(
-			product.getProductName(),
-			product.getPrice(),
-			product.getCategory().getName(),
-			product.getDescription(),
-			images,
-			options
-		);
-	}
+	// public static ProductDetailsForAdmin of(
+	// 	Product product,
+	// 	List<ProductImageResponseForAdmin> images,
+	// 	List<ProductOptionResponseForAdmin> options) {
+	//
+	// 	return new ProductDetailsForAdmin(
+	// 		product.getProductName(),
+	// 		product.getPrice(),
+	// 		product.getCategory().getName(),
+	// 		product.getDescription(),
+	// 		images,
+	// 		options
+	// 	);
+	// }
 }

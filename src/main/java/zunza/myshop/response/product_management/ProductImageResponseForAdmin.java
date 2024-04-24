@@ -1,7 +1,6 @@
 package zunza.myshop.response.product_management;
 
 import lombok.Getter;
-import zunza.myshop.domain.ProductImage;
 
 @Getter
 public class ProductImageResponseForAdmin {
@@ -14,9 +13,9 @@ public class ProductImageResponseForAdmin {
 		this.imageUrl = imageUrl;
 	}
 
-	public static ProductImageResponseForAdmin from(ProductImage productImage) {
-		return new ProductImageResponseForAdmin(
-			productImage.getId(),
-			productImage.getImageUrl());
-	}
+	// public static ProductImageResponseForAdmin from(ProductImage productImage) {
+	// 	return new ProductImageResponseForAdmin(
+	// 		productImage.getId(),
+	// 		productImage.getImageUrl());
+	// }
 }

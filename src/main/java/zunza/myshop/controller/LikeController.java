@@ -48,11 +48,11 @@ public class LikeController {
 		likeService.cancelLike(userId, productId);
 	}
 
-	@GetMapping("/user/likes/products")
-	@ResponseStatus(HttpStatus.OK)
-	public List<UserLikeResponse> userLikeProducts(
-		@AuthenticationPrincipal Long userId) {
-
-		return likeService.findUserLikeProducts(userId);
-	}
+	// @GetMapping("/user/likes/products")
+	// @ResponseStatus(HttpStatus.OK)
+	// public List<UserLikeResponse> userLikeProducts(
+	// 	@AuthenticationPrincipal Long userId) {
+	//
+	// 	return likeService.findUserLikeProducts(userId);
+	// }
 }
