@@ -59,7 +59,7 @@ public class ReviewService {
 
 		Review productReview = Review.of(user, product, req);
 		reviewRepository.save(productReview);
-		redisRepository.delete("review:: " + productId);
+		redisRepository.delete("review::" + productId);
 	}
 
 	@Transactional
@@ -70,7 +70,7 @@ public class ReviewService {
 		checkWriter(userId, review);
 
 		review.updateReview(req.getContent());
-		redisRepository.delete("review:: " + review.getProduct().getId());
+		redisRepository.delete("review::" + review.getProduct().getId());
 	}
 
 	@Transactional
@@ -81,7 +81,7 @@ public class ReviewService {
 		checkWriter(userId, review);
 
 		reviewRepository.delete(review);
-		redisRepository.delete("review:: " + review.getProduct().getId());
+		redisRepository.delete("review::" + review.getProduct().getId());
 	}
 
 	private void checkWriter(Long userId, Review review) {
