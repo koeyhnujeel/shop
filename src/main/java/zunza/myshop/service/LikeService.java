@@ -69,15 +69,12 @@ public class LikeService {
 		return likeRepository.save(Like.of(user, product));
 	}
 
-	// public List<UserLikeResponse> findUserLikeProducts(Long userId) {
-	// 	List<Like> userLike = likeRepository.findUserLike(userId);
-	//
-	// 	return userLike.stream()
-	// 		.map(like -> UserLikeResponse.of(
-	// 			like.getProduct(),
-	// 			imageUtil.getThumbnailUrl(like.getProduct())
-	// 		))
-	// 		.collect(Collectors.toList());
-	// }
+	public List<UserLikeResponse> findUserLikeProducts(Long userId) {
+		List<Like> userLike = likeRepository.findUserLike(userId);
+
+		return userLike.stream()
+			.map(like -> UserLikeResponse.from(like.getProduct()))
+			.collect(Collectors.toList());
+	}
 }
 

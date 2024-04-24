@@ -23,12 +23,12 @@ public class UserLikeResponse {
 		this.thumbnailUrl = thumbnailUrl;
 	}
 
-	public static UserLikeResponse of(Product product, String thumbnailUrl) {
+	public static UserLikeResponse from(Product product) {
 		return new UserLikeResponse(
 			product.getId(),
 			product.getProductName(),
 			product.getPrice(),
-			thumbnailUrl
+			product.getImage()
 		);
 	}
 }
